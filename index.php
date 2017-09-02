@@ -58,7 +58,25 @@ $tasks = [
         ]
 ];
 
-
+function countTasksByCategory($category, $tasks)
+{
+    $count = 0;
+    if ($category === "Все")
+    {
+        $count = count($tasks);
+    }
+    else
+    {
+        for($i=0; $i<count($tasks); $i++)
+        {
+            if ($tasks[$i]['category'] === $category)
+            {
+                $count++;
+            }
+        }
+    }
+    return $count;
+}
 
 ?>
 
@@ -110,7 +128,7 @@ $tasks = [
                             ?>
                                 <li class="main-navigation__list-item <?php if($i==0){ echo 'main-navigation__list-item--active';} ?>">
                                     <a class="main-navigation__list-item-link" href="#"><?php echo $primary_menu[$i];?></a>
-                                    <span class="main-navigation__list-item-count">0</span>
+                                    <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($primary_menu[$i], $tasks);?></span>
                                 </li>
                             <?php
                             }
