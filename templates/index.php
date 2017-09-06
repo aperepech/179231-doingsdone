@@ -30,7 +30,6 @@
     </div>
 
     <label class="checkbox">
-        <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
         <input id="show-complete-tasks"
             <?php if ($show_complete_tasks ==1) echo "checked";?>
                class="checkbox__input visually-hidden" type="checkbox">
@@ -40,38 +39,23 @@
 <table class="tasks">
 
     <?php
-    for($i=0; $i<count($tasks); $i++)
+    foreach ($tasks as $task) 
     {
         ?>
-        <tr class="tasks__item task <?php if ($tasks[$i]['readiness'] === 'Да') { echo 'task--completed'; } elseif($tasks[$i]['date_of_perfomans'] == date("d.m.Y")) { echo 'task--important';}?>">
+        <tr class="tasks__item task <?php if ($task['readiness'] === 'Да') { echo 'task--completed'; } elseif($task['date_of_perfomans'] == date("d.m.Y")) { echo 'task--important';}?>">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden" type="checkbox">
-                    <span class="checkbox__text"><?php echo htmlspecialchars($tasks[$i]['task']);?></span>
+                    <span class="checkbox__text"><?php echo htmlspecialchars($task['task']);?></span>
                 </label>
             </td>
 
             <td class="task__date">
-                <!--выведите здесь дату выполнения задачи-->
-                <?php echo strip_tags($tasks[$i]['date_of_perfomans']);?>
+                <?php echo  htmlspecialchars($task['date_of_perfomans']);?>
             </td>
         </tr>
         <?php
     }
     ?>
-    <!--<tr class="tasks__item task <?=$days_until_deadline <= 0 ? 'task--important' : ''?>">
-                        <td class="task__select">
-                            <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox">
-                                <span class="checkbox__text">Выполнить первое задание</span>
-                            </label>
-                        </td>
-
-                        <td class="task__date">
-                            <!--выведите здесь дату выполнения задачи-->
-    <!--<?php print $date_deadline;?>
-                        </td>
-                    </tr>-->
-
 
 </table>

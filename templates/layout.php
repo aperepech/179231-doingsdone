@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="user-menu__data">
-                        <p><?= strip_tags($user_name); ?></p>
+                        <p><?= htmlspecialchars($user_name); ?></p>
 
                         <a href="#">Выйти</a>
                     </div>
@@ -41,12 +41,12 @@
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php
-                        for($i=0; $i<count($primary_menu); $i++)
+                        foreach($primary_menu as $categoryIndex=>$p) 
                         {
                             ?>
-                            <li class="main-navigation__list-item <?php if($i==0){ echo 'main-navigation__list-item--active';} ?>">
-                                <a class="main-navigation__list-item-link" href="#"><?php echo strip_tags($primary_menu[$i]);?></a>
-                                <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($primary_menu[$i], $tasks);?></span>
+                            <li class="main-navigation__list-item <?php if($categoryIndex==0){ echo 'main-navigation__list-item--active';} ?>">
+                                <a class="main-navigation__list-item-link" href="#"><?php echo htmlspecialchars($p);?></a>
+                                <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($p, $tasks);?></span>
                             </li>
                             <?php
                         }
