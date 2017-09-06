@@ -2,7 +2,8 @@
 
 function renderTemplate($dir, $data)
 {
-    $dir .= '.php';
+   $dir = 'templates/'.$dir.'.php';
+  
 
     if (!file_exists($dir)) {
         return '';
@@ -12,6 +13,7 @@ function renderTemplate($dir, $data)
     extract($data);
 
     require_once $dir;
+
 
     return ob_get_clean();
 }

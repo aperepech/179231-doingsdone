@@ -63,8 +63,8 @@ $tasks = [
 $title = 'Дела в порядке!';
 $user_name = 'Константин';
 
-$content = renderTemplate('templates/index', compact('tasks'));
+$content = renderTemplate('index', compact('tasks'));
 
-$layout = renderTemplate('templates/layout', compact('title', 'user_name', 'content', 'primary_menu', 'tasks'));
+$layout = renderTemplate('layout', compact('title', 'user_name', 'content', 'primary_menu', 'tasks'));
 
 print($layout);
