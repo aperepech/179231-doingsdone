@@ -31,7 +31,7 @@
 
     <label class="checkbox">
         <input id="show-complete-tasks"
-            <?php if ($show_complete_tasks ==1) echo "checked";?>
+            <?php if ($show_complete_tasks == 1) echo "checked";?>
                class="checkbox__input visually-hidden" type="checkbox">
         <span class="checkbox__text">Показывать выполненные</span>
     </label>
@@ -41,20 +41,26 @@
     <?php
     foreach ($tasks as $task) 
     {
-        ?>
-        <tr class="tasks__item task <?php if ($task['readiness'] === 'Да') { echo 'task--completed'; } elseif($task['date_of_perfomans'] == date("d.m.Y")) { echo 'task--important';}?>">
-            <td class="task__select">
-                <label class="checkbox task__checkbox">
-                    <input class="checkbox__input visually-hidden" type="checkbox">
-                    <span class="checkbox__text"><?php echo htmlspecialchars($task['task']);?></span>
-                </label>
-            </td>
+        if($project == "Все" || $project == $task['category']) {
+            ?>
+                <tr class="tasks__item task <?php if ($task['readiness'] === 'Да') {
+                    echo 'task--completed';
+                } elseif ($task['date_of_perfomans'] == date("d.m.Y")) {
+                    echo 'task--important';
+                } ?>">
+                    <td class="task__select">
+                        <label class="checkbox task__checkbox">
+                            <input class="checkbox__input visually-hidden" type="checkbox">
+                            <span class="checkbox__text"><?php echo htmlspecialchars($task['task']); ?></span>
+                        </label>
+                    </td>
 
-            <td class="task__date">
-                <?php echo  htmlspecialchars($task['date_of_perfomans']);?>
-            </td>
-        </tr>
-        <?php
+                    <td class="task__date">
+                        <?php echo htmlspecialchars($task['date_of_perfomans']); ?>
+                    </td>
+                </tr>
+            <?php
+        }
     }
     ?>
 

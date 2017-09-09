@@ -41,15 +41,17 @@
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php
-                        foreach($primary_menu as $categoryIndex=>$p) 
-                        {
-                            ?>
-                            <li class="main-navigation__list-item <?php if($categoryIndex==0){ echo 'main-navigation__list-item--active';} ?>">
-                                <a class="main-navigation__list-item-link" href="#"><?php echo htmlspecialchars($p);?></a>
-                                <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($p, $tasks);?></span>
-                            </li>
-                            <?php
-                        }
+
+                            foreach($primary_menu as $i=>$p)
+                            {
+                                ?>
+                                <li class="main-navigation__list-item <?php if($i==$id){ echo 'main-navigation__list-item--active';} ?>">
+                                    <a class="main-navigation__list-item-link" href="index.php<?php if($i!==0) echo '?id='.$i;?>"><?php echo htmlspecialchars($p);?></a>
+                                    <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($p, $tasks);?></span>
+                                </li>
+                                <?php
+                            }
+
                         ?>
                     </ul>
                 </nav>
