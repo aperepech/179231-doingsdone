@@ -4,7 +4,6 @@ require_once 'functions.php';
 
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
-                                
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
@@ -60,11 +59,21 @@ $tasks = [
         ]
 ];
 
-$title = 'Дела в порядке!';
-$user_name = 'Константин';
+ $title = 'Дела в порядке!';
+ $user_name = 'Константин';
+ $sid = $_GET['id'] ?? 0;
+ $id = (int)$sid;
 
-$content = renderTemplate('index', compact('tasks'));
+if(!is_numeric($sid) || $id != $sid || $id<0 || $id>count($tasks)-1) //6 id 0 1 2 3 4 5
+{
+    http_response_code(404);
+    die();
+}
 
-$layout = renderTemplate('layout', compact('title', 'user_name', 'content', 'primary_menu', 'tasks'));
+$project = $primary_menu[$id];
+
+$content = renderTemplate('index', compact('tasks', 'project'));
+
+$layout = renderTemplate('layout', compact('title', 'user_name', 'content', 'primary_menu', 'tasks', 'id'));
 
 print($layout);
