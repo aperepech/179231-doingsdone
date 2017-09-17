@@ -1,6 +1,7 @@
 <?php
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
+                                
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
@@ -10,10 +11,55 @@ $task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка вр
 $current_ts = strtotime('now midnight'); // текущая метка времени
 
 // запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = null;
+$date_deadline = date("d.m.Y", $task_deadline_ts);
 
 // в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = null;
+$days_until_deadline = floor(($task_deadline_ts - $current_ts)/86400);
+
+$affairs = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+
+//associative arrays
+$task1 = [
+    "task" => "Собеседование в IT компании",
+    "date" => "01.06.2018",
+    "category" => "Работа",
+    "done" => "Нет"
+];
+$task2 = [
+    "task" => "Выполнить тестовое задание",
+    "date" => "25.05.2018",
+    "category" => "Работа",
+    "done" => "Нет"
+];
+$task3 = [
+    "task" => "Сделать задание первого раздела",
+    "date" => "21.04.2018",
+    "category" => "Учеба",
+    "done" => "Да"
+];
+$task4 = [
+    "task" => "Встреча с другом",
+    "date" => "22.04.2018",
+    "category" => "Входящие",
+    "done" => "Нет"
+];
+$task5 = [
+    "task" => "Купить корм для кота",
+    "date" => "Нет",
+    "category" => "Домашние дела",
+    "done" => "Нет"
+];
+$task6 = [
+    "task" => "Заказать пиццу",
+    "date" => "Нет",
+    "category" => "Домашние дела",
+    "done" => "Нет"
+];
+
+//2D array
+$list = [$task1, $task2, $task3, $task4, $task5, $task6];
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -122,13 +168,17 @@ $days_until_deadline = null;
 
                     <label class="checkbox">
                         <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
+                        <input id="show-complete-tasks" 
+                        <?php if ($show_complete_tasks ==1) echo "checked";?>                 
+                        class="checkbox__input visually-hidden" type="checkbox">
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
 
                 <table class="tasks">
 
+                  <?php if ($show_complete_tasks ==1) :?>  	
+                    	
                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
                     <tr class="tasks__item task task--completed">
                         <td class="task__select">
@@ -142,8 +192,10 @@ $days_until_deadline = null;
                         <td class="task__controls">
                         </td>
                     </tr>
+                   <?php endif;?>
 
-                    <tr class="tasks__item task">
+                    <tr class="tasks__item task <?=$days_until_deadline <= 0 ? 'task--important' : ''?>">
+
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox">
@@ -153,6 +205,8 @@ $days_until_deadline = null;
 
                         <td class="task__date">
                             <!--выведите здесь дату выполнения задачи-->
+                            <?php print $date_deadline;?>
+
                         </td>
 
                         <td class="task__controls">
