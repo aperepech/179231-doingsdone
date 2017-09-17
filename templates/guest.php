@@ -1,73 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $title; ?></title>
+    <title>Анонимный пользователь</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="<?php echo $body_classes;?>">
+<body class="body-background <?php echo $body_classes; ?>"><!--class="overlay"-->
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
+    <div class="container">
         <header class="main-header">
             <a href="#">
                 <img src="img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
             </a>
 
-            <?php if(empty($user)) { ?>
-                <div class="main-header__side">
-                    <a class="main-header__side-item button button--transparent" href="index.php?login">Войти</a>
-                </div>
-            <?php } else { ?>
-                <div class="main-header__side">
-                    <a class="main-header__side-item button button--plus" href="index.php?add=task">Добавить задачу</a>
-
-                    <div class="main-header__side-item user-menu">
-                        <div class="user-menu__image">
-                            <img src="img/<?php echo $user['avatar'];?>" width="40" height="40" alt="Пользователь">
-                        </div>
-
-                        <div class="user-menu__data">
-                            <p><?= htmlspecialchars($user['name']); ?></p>
-
-                            <a href="logout.php">Выйти</a>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
+            <div class="main-header__side">
+                <a class="main-header__side-item button button--transparent" href="index.php?login">Войти</a>
+            </div>
         </header>
 
         <div class="content">
-            <section class="content__side">
-                <h2 class="content__side-heading">Проекты</h2>
-                <nav class="main-navigation">
-                    <ul class="main-navigation__list">
-                        <?php
+            <section class="welcome">
+                <h2 class="welcome__heading">«Дела в порядке»</h2>
 
-                            foreach($primary_menu as $i=>$p)
-                            {
-                                ?>
-                                <li class="main-navigation__list-item <?php if($i==$id){ echo 'main-navigation__list-item--active';} ?>">
-                                    <a class="main-navigation__list-item-link" href="index.php<?php if($i!==0) echo '?id='.$i;?>"><?php echo htmlspecialchars($p);?></a>
-                                    <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($p, $tasks);?></span>
-                                </li>
-                                <?php
-                            }
+                <div class="welcome__text">
+                    <p>«Дела в порядке» — это веб приложение для удобного ведения списка дел. Сервис помогает пользователям не забывать о предстоящих важных событиях и задачах.</p>
 
-                        ?>
-                    </ul>
-                </nav>
+                    <p>После создания аккаунта, пользователь может начать вносить свои дела, деля их по проектам и указывая сроки.</p>
+                </div>
 
-                <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
+                <a class="welcome__button button" href="#">Зарегистрироваться</a>
             </section>
-
-            <main class="content__main">
-                <?php echo $content; ?>
-            </main>
         </div>
     </div>
 </div>
@@ -105,14 +72,47 @@
             <span class="visually-hidden">Разработано:</span>
 
             <a href="https://htmlacademy.ru/intensive/php">
-                <img src="img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
+                <img src="../img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
             </a>
         </div>
     </div>
 </footer>
 
-<?php echo $task_form; ?>
+<div class="modal" <?php echo $hidden; ?>>
+    <a class="modal__close" href="index.php">Закрыть</a>
 
-<script type="text/javascript" src="js/script.js"></script>
+    <h2 class="modal__heading">Вход на сайт</h2>
+
+    <form class="form" action="index.php?login" method="post">
+
+        <div class="form__row">
+            <?php if(isset($errors[2])) {?> <p class="form__message"><?php echo $errors[2]; ?><br><br></p> <?php } ?>
+
+            <label class="form__label" for="email">E-mail <sup>*</sup></label>
+
+            <input class="form__input <?php if(isset($errors[0])) { echo 'form__input--error'; }?>" required type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" value="<?php echo $auth['email']; ?>" placeholder="Введите e-mail">
+
+            <?php if(isset($errors[0])) {?> <p class="form__message"><?php echo $errors[0]; ?></p> <?php } ?>
+        </div>
+
+        <div class="form__row">
+            <label class="form__label" for="password">Пароль <sup>*</sup></label>
+
+            <input class="form__input <?php if(isset($errors[1])) { echo 'form__input--error'; }?>" required type="password" name="password" id="password" value="" placeholder="Введите пароль">
+            <?php if(isset($errors[1])) {?> <p class="form__message"><?php echo $errors[1]; ?></p> <?php } ?>
+           </div>
+
+        <div class="form__row">
+            <label class="checkbox">
+                <input name="remember" class="checkbox__input visually-hidden" type="checkbox" checked>
+                <span class="checkbox__text">Запомнить меня</span>
+            </label>
+        </div>
+
+        <div class="form__row form__row--controls">
+            <input class="button" type="submit" name="" value="Войти">
+        </div>
+    </form>
+</div>
 </body>
 </html>

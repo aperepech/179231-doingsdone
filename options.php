@@ -57,10 +57,11 @@ $tasks = [
 ];
 
 $title = 'Дела в порядке!';
-$user_name = 'Константин';
 
 $task_form = '';
 $body_classes='';
 
 $errors = [];
+$auth = ['email' => '', 'password' => ''];
 $task = [];
+$user = [];

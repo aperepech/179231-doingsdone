@@ -13,8 +13,6 @@ function renderTemplate($dir, $data)
     extract($data);
 
     require_once $dir;
-
-
     return ob_get_clean();
 }
 
@@ -39,7 +37,9 @@ function countTasksByCategory($category, $tasks)
     return $count;
 }
 
-function isValidDate($str)
-{
-     return preg_match('/^\d{2}\.\d{2}\.\d{4}$/', $strDate);
-}
+function isValidDate(string $strDate)
+ {
+    return preg_match('/^\d{2}\.\d{2}\.\d{4}$/', $strDate);
+ }
+
+ 
