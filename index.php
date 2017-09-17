@@ -6,7 +6,7 @@ require_once 'options.php';
 $sid = $_GET['id'] ?? 0;
 $id = (int)$sid;
 
-if($id != $sid || $id<0 || $id>count($tasks)-1) //6 id 0 1 2 3 4 5
+if($id != $sid || !array_key_exists($id, $tasks))
 {
     http_response_code(404);
     die();
@@ -20,13 +20,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     //print_r($_POST);
     // получаем данные
 
-    $task['name'] = $_POST['name'] ?? '';
-    $task['project_index'] = $_POST['project'] ?? '';
-    $task['date_of_perfomans'] = $_POST['date'] ?? '';
-
-    $task['task'] = trim($task['name']);
-    $task['project_index'] = trim($task['project_index']);
-    $task['date_of_perfomans'] = trim($task['date_of_perfomans']);
+    $task['name'] = trim($_POST['name'] ?? '');
+    $task['project_index'] = trim($_POST['project'] ?? '');
+    $task['date_of_perfomans'] = trim($_POST['date'] ?? '');
 
     // проверка
 
