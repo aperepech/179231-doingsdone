@@ -70,3 +70,4 @@ $task = ['name' => ['value' => '', 'error' => ''],
         'date_of_perfomans' => ['value' => '', 'error' => ''],
         ];
 $user = [];
+$show_complete_tasks = 0;

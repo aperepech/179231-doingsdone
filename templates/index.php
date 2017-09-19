@@ -31,7 +31,7 @@
 
     <label class="checkbox">
         <input id="show-complete-tasks"
-            <?php if ($show_complete_tasks == 1) echo "checked";?>
+            <?php if ($show_complete_tasks === 1) echo "checked";?>
                class="checkbox__input visually-hidden" type="checkbox">
         <span class="checkbox__text">Показывать выполненные</span>
     </label>
@@ -43,7 +43,7 @@
     {
         if($project == "Все" || $project == $task['category']) {
             ?>
-                <tr class="tasks__item task <?php if ($task['readiness'] === 'Да') {
+                <tr class="tasks__item task <?php if ($task['readiness'] === 'Да' && $show_complete_tasks === 0) {
                     echo 'task--completed';
                 } elseif ($task['date_of_perfomans'] == date("d.m.Y")) {
                     echo 'task--important';
