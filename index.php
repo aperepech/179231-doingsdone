@@ -10,32 +10,37 @@ if(!isset($_SESSION['user']))
 {
     if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
-        $auth['email'] = trim($_POST['email'] ?? '');
-        $auth['password'] = $_POST['password'] ?? '';
+        $auth['email']['value'] = trim($_POST['email'] ?? '');
+        $auth['password']['value'] = $_POST['password'] ?? '';
+        $is_error = false;
 
-        if($auth['email'] == '')
+        if($auth['email']['value'] == '')
         {
-            $errors[0] = 'Не указан email';
+            $auth['email']['error'] = 'Не указан email';
+            $is_error = true;
         }
-        elseif (!filter_var($auth['email'], FILTER_VALIDATE_EMAIL))
+        elseif (!filter_var($auth['email']['value'], FILTER_VALIDATE_EMAIL))
         {
-            $errors[0] = 'Недопустимый email';
+            $auth['email']['error']  = 'Недопустимый email';
+            $is_error = true;
         }
 
-        if($auth['password'] == '')
+        if($auth['password']['value'] == '')
         {
-            $errors[1] = 'Не указан пароль';
+            $auth['password']['error']  = 'Не указан пароль';
+            $is_error = true;
         }
 
         $res = array_filter($users, function ($a) use ($auth) {
-            return $a['email'] == $auth['email'] && password_verify($auth['password'], $a['password']);
+            return $a['email'] == $auth['email']['value'] && password_verify($auth['password']['value'], $a['password']);
         });
 
-        if (count($errors) == 0 && count($res) != 1) {
-            $errors[2] = 'Неверные данные для входа';
+        if (!$is_error && count($res) != 1) {
+            $auth['error'] = 'Неверные данные для входа';
+            $is_error = true;
         }
 
-        if(count($errors) == 0) //аутентификация успешна
+        if(!$is_error) //аутентификация успешна
         {
             $_SESSION['user'] = array_shift($res);
             header('Location: index.php');
@@ -43,11 +48,11 @@ if(!isset($_SESSION['user']))
     }
 
     $guest_data = ['hidden' => 'hidden', 'body_classes' => '',
-        'errors' => [], 'auth' => []];
+        'auth' => []];
     if (isset($_GET['login']))
     {
         $guest_data = ['hidden' => '', 'body_classes' => 'overlay',
-            'errors' => $errors, 'auth' => $auth];
+            'auth' => $auth];
     }
     $guest = renderTemplate('guest', $guest_data);
 
@@ -74,30 +79,31 @@ $add = $_GET['add'] ?? '';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $task['name'] = trim($_POST['name'] ?? '');
-    $task['project_index'] = trim($_POST['project'] ?? '');
-    $task['date_of_perfomans'] = trim($_POST['date'] ?? '');
+    $task['name']['value'] = trim($_POST['name'] ?? '');
+    $task['project_index']['value'] = trim($_POST['project'] ?? '');
+    $task['date_of_perfomans']['value'] = trim($_POST['date'] ?? '');
 
-    if($task['name'] === '')
+    $is_error = false;
+
+    if($task['name']['value'] === '')
     {
-        $errors[0] = 'Укажите название проекта';
+        $task['name']['error'] = 'Укажите название проекта';
+        $is_error = true;
     }
 
-    if ($task['date_of_perfomans'] === '')
+    if ($task['date_of_perfomans']['value'] === '')
     {
-        $errors[1] = 'Укажите дату';
+        $task['date_of_perfomans']['error'] = 'Укажите дату';
+        $is_error = true;
+    }
+    elseif(!isValidDate($task['date_of_perfomans']['value']))
+    {
+        $task['date_of_perfomans']['error'] = 'Недопустимая дата';
+        $is_error = true;
     }
 
-    if(!isValidDate($task['date_of_perfomans']))
-    {
-        $errors[2] = 'Недопустимая дата';
-    }
-
-
-    if (count($errors)>0) {
-
+    if ($is_error) {
         $add = 'task';
-
     }
     else {
 
@@ -109,9 +115,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $new_task = [
-            'task' => $task['name'],
-            'date_of_perfomans' => $task['date_of_perfomans'],
-            'category' => $primary_menu[$task['project_index']],
+            'task' => $task['name']['value'],
+            'date_of_perfomans' => $task['date_of_perfomans']['value'],
+            'category' => $primary_menu[$task['project_index']['value']],
             'readiness' => 'Нет'
         ];
 
@@ -124,7 +130,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 if ($add == 'task')
 {
     $projects = $primary_menu;
-    $task_form = renderTemplate('task_form', compact('projects','errors','task'));
+    $task_form = renderTemplate('task_form', compact('projects','task'));
     $body_classes = "overlay";
 }
 

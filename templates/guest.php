@@ -86,20 +86,20 @@
     <form class="form" action="index.php?login" method="post">
 
         <div class="form__row">
-            <?php if(isset($errors[2])) {?> <p class="form__message"><?php echo $errors[2]; ?><br><br></p> <?php } ?>
+            <p class="form__message"><?php echo $auth['error'].'<br><br>';?></p>
 
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
-            <input class="form__input <?php if(isset($errors[0])) { echo 'form__input--error'; }?>" required type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" value="<?php echo $auth['email']; ?>" placeholder="Введите e-mail">
+            <input class="form__input <?php if($auth['email']['error']!=='') { echo 'form__input--error'; }?>" required type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" value="<?php echo $auth['email']['value']; ?>" placeholder="Введите e-mail">
 
-            <?php if(isset($errors[0])) {?> <p class="form__message"><?php echo $errors[0]; ?></p> <?php } ?>
+            <p class="form__message"><?php echo $auth['email']['error']; ?></p>
         </div>
 
         <div class="form__row">
             <label class="form__label" for="password">Пароль <sup>*</sup></label>
 
-            <input class="form__input <?php if(isset($errors[1])) { echo 'form__input--error'; }?>" required type="password" name="password" id="password" value="" placeholder="Введите пароль">
-            <?php if(isset($errors[1])) {?> <p class="form__message"><?php echo $errors[1]; ?></p> <?php } ?>
+            <input class="form__input <?php if($auth['password']['error']!=='') { echo 'form__input--error'; }?>" required type="password" name="password" id="password" value="" placeholder="Введите пароль">
+            <p class="form__message"><?php echo $auth['password']['error']!==''; ?></p>
            </div>
 
         <div class="form__row">

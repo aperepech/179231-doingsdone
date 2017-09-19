@@ -9,8 +9,8 @@
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
-            <input class="form__input <?php if(isset($errors[0])) {?> form__input--error <?php }?>" type="text" name="name" id="name" value="<?php if(isset($task['name'])) echo $task['name'];?>" placeholder="Введите название">
-            <?php if(isset($errors[0])) {?> <span class="form__error"><?php echo $errors[0]; ?></span> <?php }?>
+            <input class="form__input <?php if($task['name']['error']!=='') {?> form__input--error <?php }?>" type="text" name="name" required id="name" value="<?php echo $task['name']['value'];?>" placeholder="Введите название">
+            <span class="form__error"><?php echo $task['name']['error']; ?></span>
         </div>
 
         <div class="form__row">
@@ -20,7 +20,7 @@
                 <?php foreach($projects as $i=>$p)
                 {
                     if($i!=0) { ?>
-                        <option value="<?php echo $i; ?>"  <?php if(isset($task['project_index']) && $i == $task['project_index']) echo 'selected'; ?>  ><?php echo $p; ?></option>
+                        <option value="<?php echo $i; ?>"  <?php if($i == $task['project_index']['value']) echo 'selected'; ?>  ><?php echo $p; ?></option>
                     <?php
                     }
                 }
@@ -32,9 +32,8 @@
         <div class="form__row">
             <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
 
-            <input class="form__input form__input--date <?php if(isset($errors[1]) || isset($errors[2])) {?> form__input--error <?php }?>" type="text" name="date" id="date" value="<?php if(isset($task['date_of_perfomans'])) echo $task['date_of_perfomans'];?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
-            <?php if(isset($errors[1])) {?> <span class="form__error"><?php echo $errors[1]; ?></span> <?php }
-                elseif(isset($errors[2])) {?> <span class="form__error"><?php echo $errors[2]; ?></span> <?php }?>
+            <input class="form__input form__input--date <?php if($task['date_of_perfomans']['error']!=='') {?> form__input--error <?php }?>" required type="text" name="date" id="date" value="<?php echo $task['date_of_perfomans']['value'];?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+            <span class="form__error"><?php echo $task['date_of_perfomans']['error']; ?></span>
 
         </div>
 

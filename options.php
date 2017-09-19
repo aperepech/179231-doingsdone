@@ -62,6 +62,11 @@ $task_form = '';
 $body_classes='';
 
 $errors = [];
-$auth = ['email' => '', 'password' => ''];
-$task = [];
+$auth = ['email' => ['value' => '', 'error' => ''],
+    'password' => ['value' => '', 'error' => ''],
+    'error' => ''];
+$task = ['name' => ['value' => '', 'error' => ''],
+        'project_index' => ['value' => '', 'error' => ''],
+        'date_of_perfomans' => ['value' => '', 'error' => ''],
+        ];
 $user = [];
