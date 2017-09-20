@@ -1,79 +1,142 @@
 <?php
 
 require_once 'functions.php';
+require_once 'options.php';
+require_once 'userdata.php';
 
-// показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
+session_start();
 
-// устанавливаем часовой пояс в Московское время
-date_default_timezone_set('Europe/Moscow');
+if(!isset($_SESSION['user']))
+{
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        $auth['email']['value'] = trim($_POST['email'] ?? '');
+        $auth['password']['value'] = $_POST['password'] ?? '';
+        $is_error = false;
 
-$days = rand(-3, 3);
-$task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка времени даты выполнения задачи
-$current_ts = strtotime('now midnight'); // текущая метка времени
+        if($auth['email']['value'] == '')
+        {
+            $auth['email']['error'] = 'Не указан email';
+            $is_error = true;
+        }
+        elseif (!filter_var($auth['email']['value'], FILTER_VALIDATE_EMAIL))
+        {
+            $auth['email']['error']  = 'Недопустимый email';
+            $is_error = true;
+        }
 
-// запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = date("d.m.Y", $task_deadline_ts);
+        if($auth['password']['value'] == '')
+        {
+            $auth['password']['error']  = 'Не указан пароль';
+            $is_error = true;
+        }
 
-// в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = floor(($task_deadline_ts - $current_ts)/86400);
+        $res = array_filter($users, function ($a) use ($auth) {
+            return $a['email'] == $auth['email']['value'] && password_verify($auth['password']['value'], $a['password']);
+        });
 
-$primary_menu = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+        if (!$is_error && count($res) != 1) {
+            $auth['error'] = 'Неверные данные для входа';
+            $is_error = true;
+        }
 
-$tasks = [
-          [
-              'task' => 'Собеседование в IT компании',
-              'date_of_perfomans' => '01.06.2018',
-              'category' => 'Работа',
-              'readiness' => 'Нет'
-          ],
-          [
-              'task' => 'Выполнить тестовое задание',
-              'date_of_perfomans' => '25.05.2018',
-              'category' => 'Работа',
-              'readiness' => 'Нет'
-          ],
-        [
-            'task' => 'Сделать задание первого раздела',
-            'date_of_perfomans' => '21.04.2018',
-            'category' => 'Учеба',
-            'readiness' => 'Да'
-        ],
-        [
-            'task' => 'Встреча с другом',
-            'date_of_perfomans' => '22.04.2018',
-            'category' => 'Входящие',
-            'readiness' => 'Нет'
-        ],
-        [
-            'task' => 'Купить корм для кота',
-            'date_of_perfomans' => '01.06.2018',
-            'category' => 'Домашние дела',
-            'readiness' => 'Нет'
-        ],
-        [
-            'task' => 'Заказать пиццу',
-            'date_of_perfomans' => '01.06.2018',
-            'category' => 'Домашние дела',
-            'readiness' => 'Нет'
-        ]
-];
+        if(!$is_error) //аутентификация успешна
+        {
+            $_SESSION['user'] = array_shift($res);
+            header('Location: index.php');
+        }
+    }
 
- $title = 'Дела в порядке!';
- $user_name = 'Константин';
- $sid = $_GET['id'] ?? 0;
- $id = (int)$sid;
+    $guest_data = ['hidden' => 'hidden', 'body_classes' => '',
+        'auth' => []];
+    if (isset($_GET['login']))
+    {
+        $guest_data = ['hidden' => '', 'body_classes' => 'overlay',
+            'auth' => $auth];
+    }
+    $guest = renderTemplate('guest', $guest_data);
 
-if(!is_numeric($sid) || $id != $sid || $id<0 || $id>count($tasks)-1) //6 id 0 1 2 3 4 5
+    print($guest);
+
+    die();
+
+}
+else
+{
+    $user = $_SESSION['user'];
+}
+
+$sid = $_GET['id'] ?? 0;
+$id = (int)$sid;
+
+if($id != $sid || !array_key_exists($id, $tasks)) 
 {
     http_response_code(404);
     die();
 }
 
+$add = $_GET['add'] ?? '';
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $task['name']['value'] = trim($_POST['name'] ?? '');
+    $task['project_index']['value'] = trim($_POST['project'] ?? '');
+    $task['date_of_perfomans']['value'] = trim($_POST['date'] ?? '');
+
+    $is_error = false;
+
+    if($task['name']['value'] === '')
+    {
+        $task['name']['error'] = 'Укажите название проекта';
+        $is_error = true;
+    }
+
+    if ($task['date_of_perfomans']['value'] === '')
+    {
+        $task['date_of_perfomans']['error'] = 'Укажите дату';
+        $is_error = true;
+    }
+    elseif(!isValidDate($task['date_of_perfomans']['value']))
+    {
+        $task['date_of_perfomans']['error'] = 'Недопустимая дата';
+        $is_error = true;
+    }
+
+    if ($is_error) {
+        $add = 'task';
+    }
+    else {
+
+        if(isset($_FILES['preview']))
+        {
+            $file_name = $_FILES['preview']['name'];
+            $file_path = __DIR__.'/';
+            move_uploaded_file($_FILES['preview']['tmp_name'], $file_path.$file_name);
+        }
+
+        $new_task = [
+            'task' => $task['name']['value'],
+            'date_of_perfomans' => $task['date_of_perfomans']['value'],
+            'category' => $primary_menu[$task['project_index']['value']],
+            'readiness' => 'Нет'
+        ];
+
+        array_unshift($tasks, $new_task);
+    }
+
+}
+
+
+if ($add == 'task')
+{
+    $projects = $primary_menu;
+    $task_form = renderTemplate('task_form', compact('projects','task'));
+    $body_classes = "overlay";
+}
+
+
 $project = $primary_menu[$id];
-
 $content = renderTemplate('index', compact('tasks', 'project'));
-
-$layout = renderTemplate('layout', compact('title', 'user_name', 'content', 'primary_menu', 'tasks', 'id'));
+$layout = renderTemplate('layout', compact('title', 'user', 'content', 'primary_menu', 'tasks', 'id', 'task_form', 'body_classes'));
 
 print($layout);
