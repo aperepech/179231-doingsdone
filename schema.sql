@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `email` varchar(60) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `password` varchar(60) NOT NULL,
   `contacts` text,
   `reg_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS `projects` (
 
 CREATE TABLE IF NOT EXISTS `tasks` (
   `id` int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int(11) UNSIGNED NOT NULL,
   `project_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(50) NOT NULL,
   `file` varchar(255) DEFAULT NULL,
