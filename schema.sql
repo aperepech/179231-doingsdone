@@ -3,37 +3,37 @@ CREATE DATABASE IF NOT EXISTS `projects_base` DEFAULT CHARACTER SET utf8 COLLATE
 USE `projects_base`;
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id_user` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `email` varchar(60) NOT NULL,
   `name` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
   `contacts` text,
-  `reg_date` datetime NOT NULL
+  `reg_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `projects` (
-  `id_project` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `id_user` int(11) NOT NULL,
-   FOREIGN KEY (`id_user`)
-        REFERENCES `users` (`id_user`)
+  `user_id` int(11) UNSIGNED NOT NULL,
+   FOREIGN KEY (`user_id`)
+        REFERENCES `users` (`id`)
         ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `tasks` (
-  `id_task` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
-  `id_project` int(11) NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `project_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(50) NOT NULL,
   `file` varchar(255) DEFAULT NULL,
   `date_perfomance` datetime NOT NULL,
-  `date_create` datetime NOT NULL,
+  `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_done` datetime DEFAULT NULL,
-  FOREIGN KEY (`id_user`)
-        REFERENCES `users` (`id_user`)
+  FOREIGN KEY (`user_id`)
+        REFERENCES `users` (`id`)
         ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (`id_project`)
-        REFERENCES `projects` (`id_project`)
+  FOREIGN KEY (`project_id`)
+        REFERENCES `projects` (`id`)
         ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
