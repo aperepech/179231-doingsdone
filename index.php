@@ -4,6 +4,13 @@ require_once 'functions.php';
 require_once 'options.php';
 require_once 'userdata.php';
 
+if(isset($_GET['show_completed']))
+{
+    $value = $_GET['show_completed'] == 1 ? 1 : 0;
+    setcookie('show_complete_tasks', $value, strtotime("Mon, 25-Jan-2027 10:00:00 GMT"), '/');
+    header('Location: index.php');
+}
+
 session_start();
 
 if(!isset($_SESSION['user']))
@@ -134,9 +141,13 @@ if ($add == 'task')
     $body_classes = "overlay";
 }
 
+if(isset($_COOKIE['show_complete_tasks']))
+{
+    $show_complete_tasks = (int)$_COOKIE['show_complete_tasks'];
+}
 
 $project = $primary_menu[$id];
-$content = renderTemplate('index', compact('tasks', 'project'));
+$content = renderTemplate('index', compact('tasks', 'project', 'show_complete_tasks'));
 $layout = renderTemplate('layout', compact('title', 'user', 'content', 'primary_menu', 'tasks', 'id', 'task_form', 'body_classes'));
 
 print($layout);
