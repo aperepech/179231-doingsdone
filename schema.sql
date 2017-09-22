@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `email` varchar(60) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `password` varchar(60) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `contacts` text,
   `reg_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -28,9 +28,6 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `date_perfomance` datetime NOT NULL,
   `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_done` datetime DEFAULT NULL,
-  FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`)
-        ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`project_id`)
         REFERENCES `projects` (`id`)
         ON UPDATE CASCADE ON DELETE CASCADE
