@@ -1,8 +1,8 @@
 -- добавление пользователей
-INSERT INTO `users`(`id`, `email`, `name`, `password`, `avatar`) VALUES 
-(1, 'ignat.v@gmail.com','Игнат','$2y$10$OqvsKHQwr0Wk6FMZDoHo1uHoXd4UdxJG/5UDtUiie00XaxMHrW8ka','user-pic.jpg'),
-(2, 'kitty_93@li.ru','Леночка','$2y$10$bWtSjUhwgggtxrnJ7rxmIe63ABubHQs0AS0hgnOo41IEdMHkYoSVa','user-pic.jpg'), 
-(3, 'warrior07@mail.ru','Руслан','$2y$10$2OxpEH7narYpkOT1H5cApezuzh10tZEEQ2axgFOaKW.55LxIJBgWW','user-pic.jpg');
+INSERT INTO `users`(`id`, `email`, `name`, `password`) VALUES 
+(1, 'ignat.v@gmail.com','Игнат','$2y$10$OqvsKHQwr0Wk6FMZDoHo1uHoXd4UdxJG/5UDtUiie00XaxMHrW8ka'),
+(2, 'kitty_93@li.ru','Леночка','$2y$10$bWtSjUhwgggtxrnJ7rxmIe63ABubHQs0AS0hgnOo41IEdMHkYoSVa'), 
+(3, 'warrior07@mail.ru','Руслан','$2y$10$2OxpEH7narYpkOT1H5cApezuzh10tZEEQ2axgFOaKW.55LxIJBgWW');
 
 --добавление проектов для одного пользователя
 INSERT INTO `projects`(`id`,`name`, `user_id`) VALUES (1,'Входящие',1), 
