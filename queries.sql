@@ -4,7 +4,7 @@ INSERT INTO `users`(`id`, `email`, `name`, `password`) VALUES
 (2, 'kitty_93@li.ru','Леночка','$2y$10$bWtSjUhwgggtxrnJ7rxmIe63ABubHQs0AS0hgnOo41IEdMHkYoSVa'), 
 (3, 'warrior07@mail.ru','Руслан','$2y$10$2OxpEH7narYpkOT1H5cApezuzh10tZEEQ2axgFOaKW.55LxIJBgWW');
 
---добавление проектов для одного пользователя
+-- добавление проектов для одного пользователя
 INSERT INTO `projects`(`id`,`name`, `user_id`) VALUES (1,'Входящие',1), 
 						(2,'Учеба',1), 
 						(3,'Работа',1), 
