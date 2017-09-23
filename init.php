@@ -1,4 +1,6 @@
 <?php
+require_once 'options.php';
+
 
 $con = mysqli_connect($db['host'],$db['user'],$db['password'],$db['db_name']);
 
