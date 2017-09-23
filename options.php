@@ -1,4 +1,13 @@
 <?php
+//база данных
+
+$db = [
+	'host' => 'localhost',
+	'user' => 'root',
+	'password' => '',
+	'db_name' => 'projects_base'
+];
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
