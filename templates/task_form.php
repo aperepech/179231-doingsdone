@@ -19,8 +19,8 @@
             <select class="form__input form__input--select" name="project" id="project">
                 <?php foreach($projects as $i=>$p)
                 {
-                    if($i!=0) { ?>
-                        <option value="<?php echo $i; ?>"  <?php if($i == $task['project_index']['value']) echo 'selected'; ?>  ><?php echo $p; ?></option>
+                    if($p['id']!=0) { ?>
+                        <option value="<?php echo $p['id']; ?>"  <?php if($p['id'] == $task['project_index']['value']) echo 'selected'; ?>  ><?php echo $p['name']; ?></option>
                     <?php
                     }
                 }

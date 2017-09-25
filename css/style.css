@@ -783,3 +783,8 @@ a:focus {
 .welcome__text p {
   margin: 20px 0;
 }
+
+.task_filter {
+  color: #31313a;
+  text-decoration: none;
+}

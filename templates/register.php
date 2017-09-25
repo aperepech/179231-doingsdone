@@ -1,40 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
-  <link rel="stylesheet" href="../css/normalize.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <title>Регистрация</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="body-background"><!--class="overlay"-->
+<body><!--class="overlay"-->
   <h1 class="visually-hidden">Дела в порядке</h1>
 
   <div class="page-wrapper">
-    <div class="container">
+    <div class="container container--with-sidebar">
       <header class="main-header">
         <a href="#">
-          <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
+          <img src="img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
         </a>
-
-        <div class="main-header__side">
-          <a class="main-header__side-item button button--transparent" href="#">Войти</a>
-        </div>
       </header>
 
       <div class="content">
-        <section class="welcome">
-          <h2 class="welcome__heading">«Дела в порядке»</h2>
+        <section class="content__side">
+          <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-          <div class="welcome__text">
-            <p>«Дела в порядке» — это веб приложение для удобного ведения списка дел. Сервис помогает пользователям не забывать о предстоящих важных событиях и задачах.</p>
-
-            <p>После создания аккаунта, пользователь может начать вносить свои дела, деля их по проектам и указывая сроки.</p>
-          </div>
-
-          <a class="welcome__button button" href="#">Зарегистрироваться</a>
+          <a class="button button--transparent content__side-button" href="index.php?login">Войти</a>
         </section>
+
+        <main class="content__main">
+          <h2 class="content__main-heading">Регистрация аккаунта</h2>
+
+          <form class="form" action="" method="post">
+            <div class="form__row">
+              <label class="form__label" for="email">E-mail <sup>*</sup></label>
+
+              <input class="form__input <?php if($new_user['email']['error']!='') {?> form__input--error <?php } ?>" type="text" name="email" id="email" value="<?php echo $new_user['email']['value'];?>" placeholder="Введите e-mail">
+
+              <p class="form__message"><?php echo $new_user['email']['error'];?></p>
+            </div>
+
+            <div class="form__row">
+              <label class="form__label" for="password">Пароль <sup>*</sup></label>
+
+              <input class="form__input <?php if($new_user['password']['error']!='') {?> form__input--error <?php } ?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
+              <p class="form__message"><?php echo $new_user['password']['error'];?></p>
+
+            </div>
+
+            <div class="form__row">
+              <label class="form__label" for="name">Имя <sup>*</sup></label>
+
+              <input class="form__input <?php if($new_user['name']['error']!='') {?> form__input--error <?php } ?>" type="text" name="name" id="name" value="<?php echo $new_user['name']['value'];?>" placeholder="Введите имя">
+                <p class="form__message"><?php echo $new_user['name']['error'];?></p>
+
+            </div>
+
+            <div class="form__row form__row--controls">
+                <?php if($new_user['name']['error']!='' || $new_user['password']['error']!='' || $new_user['email']['error']!='') {?>
+              <p class="error-massage">Пожалуйста, исправьте ошибки в форме</p>
+                <?php } ?>
+              <input class="button" type="submit" name="" value="Зарегистрироваться">
+            </div>
+          </form>
+        </main>
       </div>
     </div>
   </div>
@@ -47,7 +74,7 @@
         <p>Веб-приложение для удобного ведения списка дел.</p>
       </div>
 
-      <a class="main-footer__button button button--plus">Добавить задачу</a>
+      <a class="main-footer__button"></a>
 
       <div class="main-footer__social social">
         <span class="visually-hidden">Мы в соцсетях:</span>
@@ -72,43 +99,10 @@
         <span class="visually-hidden">Разработано:</span>
 
         <a href="https://htmlacademy.ru/intensive/php">
-          <img src="../img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
+          <img src="img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
         </a>
       </div>
     </div>
   </footer>
-
-  <div class="modal" hidden>
-    <button class="modal__close" type="button" name="button">Закрыть</button>
-
-    <h2 class="modal__heading">Вход на сайт</h2>
-
-    <form class="form" class="" action="index.html" method="post">
-      <div class="form__row">
-        <label class="form__label" for="email">E-mail <sup>*</sup></label>
-
-        <input class="form__input form__input--error" type="text" name="email" id="email" value="" placeholder="Введите e-mail">
-
-        <p class="form__message">E-mail введён некорректно</p>
-      </div>
-
-      <div class="form__row">
-        <label class="form__label" for="password">Пароль <sup>*</sup></label>
-
-        <input class="form__input" type="password" name="password" id="password" value="" placeholder="Введите пароль">
-      </div>
-
-      <div class="form__row">
-        <label class="checkbox">
-          <input class="checkbox__input visually-hidden" type="checkbox" checked>
-          <span class="checkbox__text">Запомнить меня</span>
-        </label>
-      </div>
-
-      <div class="form__row form__row--controls">
-        <input class="button" type="submit" name="" value="Войти">
-      </div>
-    </form>
-  </div>
 </body>
 </html>

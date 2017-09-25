@@ -33,7 +33,7 @@
                     <p>После создания аккаунта, пользователь может начать вносить свои дела, деля их по проектам и указывая сроки.</p>
                 </div>
 
-                <a class="welcome__button button" href="#">Зарегистрироваться</a>
+                <a class="welcome__button button" href="index.php?reg">Зарегистрироваться</a>
             </section>
         </div>
     </div>
@@ -47,7 +47,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus">Добавить задачу</a>
+        <a class="main-footer__button button button--plus" href="index.php?login">Добавить задачу</a>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
@@ -72,7 +72,7 @@
             <span class="visually-hidden">Разработано:</span>
 
             <a href="https://htmlacademy.ru/intensive/php">
-                <img src="../img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
+                <img src="img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
             </a>
         </div>
     </div>
