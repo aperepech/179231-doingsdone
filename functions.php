@@ -16,7 +16,7 @@ function select_data($con, string $sql, array $data = [])
 
 function insert_data($con, string $table, array $data)
 {
-	$keys = array_keys($data);
+    $keys = array_keys($data);
     $cols = implode(', ', $keys);
     $values = array_values($data);
     $vals = str_repeat('?, ', count($values));
@@ -25,7 +25,7 @@ function insert_data($con, string $table, array $data)
     $sql = "INSERT INTO $table ($cols) VALUES ($vals)";
  
     $stmt = db_get_prepare_stmt($con, $sql, $values);
-	
+    
     if (mysqli_stmt_execute($stmt)) {
          return mysqli_insert_id($con);
     }

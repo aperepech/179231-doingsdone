@@ -28,7 +28,7 @@
 
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__image">
-                            <img src="img/<?php echo $user['avatar'];?>" width="40" height="40" alt="Пользователь">
+                            <img src="img/user-pic.jpg" width="40" height="40" alt="Пользователь">
                         </div>
 
                         <div class="user-menu__data">
@@ -51,9 +51,9 @@
                             foreach($primary_menu as $i=>$p)
                             {
                                 ?>
-                                <li class="main-navigation__list-item <?php if($i==$id){ echo 'main-navigation__list-item--active';} ?>">
-                                    <a class="main-navigation__list-item-link" href="index.php<?php if($i!==0) echo '?id='.$i;?>"><?php echo htmlspecialchars($p);?></a>
-                                    <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($p, $tasks);?></span>
+                                <li class="main-navigation__list-item <?php if($p['id']==$id){ echo 'main-navigation__list-item--active';} ?>">
+                                    <a class="main-navigation__list-item-link" href="index.php<?php if($p['id']!==0) echo '?id='.$p['id'];?>"><?php echo htmlspecialchars($p['name']);?></a>
+                                    <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($p['id'], $tasks);?></span>
                                 </li>
                                 <?php
                             }
