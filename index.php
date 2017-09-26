@@ -140,7 +140,7 @@ if(isset($_GET['del']))
 {
     $del_id = (int)$_GET['del'];
 
-    if(trim($_GET['del']) == $del_id && checkTaskId($con, $del_id, $user['id']))
+    if(trim($_GET['del']) == $del_id && isExistsUserTask($con, $del_id, $user['id']))
     {
         exec_query($con,'DELETE FROM tasks WHERE id = ?', [$del_id]);
     }
@@ -153,7 +153,7 @@ elseif(isset($_GET['done']))
 {
     $done_id = (int)$_GET['done'];
 
-    if(trim($_GET['done']) == $done_id && checkTaskId($con, $done_id, $user['id']))
+    if(trim($_GET['done']) == $done_id && isExistsUserTask($con, $done_id, $user['id']))
     {
         exec_query($con,'UPDATE tasks SET date_done = NOW() WHERE id = ?', [$done_id]);
     }
