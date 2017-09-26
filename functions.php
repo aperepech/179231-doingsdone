@@ -31,13 +31,11 @@ function insert_data($con, string $table, array $data)
     }
     
     return false;
- 
-}
+ }
 
 function exec_query($con, string $sql, array $data = []) {
 
     return mysqli_stmt_execute(db_get_prepare_stmt($con, $sql, $data));
-
 }
 
 function renderTemplate($dir, $data)
@@ -55,7 +53,6 @@ function renderTemplate($dir, $data)
     require_once $dir;
     return ob_get_clean();
 }
-
 
 function countTasksByCategory($project_id, $tasks)
 {
