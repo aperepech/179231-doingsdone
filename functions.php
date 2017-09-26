@@ -170,4 +170,22 @@ function isExistsUserTask($con, int $task_id, int $user_id)
     return count(select_data($con, 'SELECT tasks.id FROM tasks, projects WHERE tasks.id= ? AND date_done IS NULL AND tasks.project_id=projects.id AND projects.user_id = ?',[$task_id, $user_id]))==1;
 }
 
+/**
+ * @param $mailer Объект Swift_Mailer
+ * @param $msg Текст письма
+ * @param $email_from Email отправителя
+ * @param $user_email Email пользователя
+ * @return mixed
+ */
+function sendMessage($mailer, $msg, $email_from, $user_email)
+{
+    // Create a message
+    $message = (new Swift_Message('Уведомление от сервиса «Дела в порядке»'))
+        ->setFrom([$email_from => 'Дела в порядке!'])
+        ->setTo([$user_email])
+        ->setBody($msg);
+
+    return $mailer->send($message);
+}
+
  

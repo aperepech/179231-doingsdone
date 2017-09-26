@@ -8,6 +8,16 @@ $db = [
 	'db_name' => 'projects_base'
 ];
 
+//email
+$email = [
+    'from' => 'doingsdone@mail.ru',
+    'username' => 'doingsdone@mail.ru',
+    'password' => 'rds7BgcL',
+    'host' => 'smtp.mail.ru',
+    'port' => 465,
+    'encrypt' => 'ssl'
+];
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
