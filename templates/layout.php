@@ -53,7 +53,7 @@
                                 ?>
                                 <li class="main-navigation__list-item <?php if($p['id']==$id){ echo 'main-navigation__list-item--active';} ?>">
                                     <a class="main-navigation__list-item-link" href="index.php<?php if($p['id']!==0) echo '?id='.$p['id'];?>"><?php echo htmlspecialchars($p['name']);?></a>
-                                    <span class="main-navigation__list-item-count"><?php echo countTasksByCategory($p['id'], $tasks);?></span>
+                                    <span class="main-navigation__list-item-count"><?php echo countTasksByProject($p['id'], $tasks);?></span>
                                 </li>
                                 <?php
                             }
