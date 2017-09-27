@@ -1,5 +1,4 @@
 <?php
-
 require_once 'functions.php';
 require_once 'options.php';
 require_once 'userdata.php';
