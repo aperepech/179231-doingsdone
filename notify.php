@@ -3,6 +3,7 @@
 require_once 'vendor/autoload.php';
 require_once 'functions.php';
 require_once 'init.php';
+require_once 'email_init.php';
 require_once 'mysql_helper.php';
 
 $sql = "SELECT tasks.name as task_name, DATE_FORMAT(tasks.date_perfomance,'%d.%m.%y %H:%i') as date_perfomance, users.id, users.email, users.name as user_name ".
@@ -16,14 +17,6 @@ $tasks = select_data($con, $sql);
 if(!count($tasks)) {
     exit();
 }
-
-// Create the Transport
-$transport = (new Swift_SmtpTransport($email['host'], $email['port']))
-    ->setUsername($email['username'])
-    ->setPassword($email['password']);
-
-// Create the Mailer using your created Transport
-$mailer = new Swift_Mailer($transport);
 
 $user_id = $tasks[0]['id'];
 $user_email = $tasks[0]['email'];
