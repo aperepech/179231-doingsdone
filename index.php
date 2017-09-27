@@ -1,4 +1,5 @@
 <?php
+
 require_once 'vendor/autoload.php';
 require_once 'functions.php';
 require_once 'init.php';
@@ -164,7 +165,7 @@ elseif(isset($_GET['done']))
     }
 }
 
-$add = $_GET['add'] ?? '';
+$add = trim($_GET['add'] ?? '');
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -191,7 +192,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $add = 'task';
     } else {
 
-        $file = null;
+        $file = '';
 
         if (isset($_FILES['preview']) && is_uploaded_file($_FILES['preview']['tmp_name'])) {
             $file_name = $_FILES['preview']['name'];
@@ -218,7 +219,7 @@ if ($add == 'task')
     $body_classes = "overlay";
 }
 
-$filter = (int)$_GET['filter'] ?? 0;
+$filter = (int)($_GET['filter'] ?? 0);
 
 $menu_tasks = select_data($con, 'SELECT tasks.id, tasks.project_id, tasks.name, tasks.file, tasks.date_perfomance, tasks.date_create, tasks.date_done FROM tasks, projects WHERE tasks.project_id = projects.id AND projects.user_id = ? ORDER BY tasks.date_create DESC, tasks.date_perfomance DESC', [$user['id']]);
 
@@ -234,12 +235,7 @@ switch($filter) {
             break;
 }
 
-
-
-if(isset($_COOKIE['show_complete_tasks']))
-{
-    $show_complete_tasks = (int)$_COOKIE['show_complete_tasks'];
-}
+$show_complete_tasks = (int)($_COOKIE['show_complete_tasks'] ?? 0);
 
 $content = renderTemplate('index', compact('tasks', 'id', 'show_complete_tasks', 'filter'));
 $tasks = $menu_tasks;
